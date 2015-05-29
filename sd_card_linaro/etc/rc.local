@@ -1,0 +1,44 @@
+#!/bin/sh -e
+#
+# rc.local
+#
+# This script is executed at the end of each multiuser runlevel.
+# Make sure that the script will "exit 0" on success or any other
+# value on error.
+#
+# In order to enable or disable this script just change the execution
+# bits.
+#
+# By default this script does nothing.
+
+# Generate the SSH keys if non-existent
+test -f /etc/ssh/ssh_host_dsa_key || dpkg-reconfigure openssh-server
+
+mount /dev/mmcblk0p1 /mnt
+insmod /mnt/superip.ko
+
+sleep 1
+
+echo 0000002CB6 > /proc/superip
+echo 010000596C > /proc/superip
+echo 0200002CB6 > /proc/superip
+echo 038097A63A > /proc/superip
+echo 043F690C9D > /proc/superip
+echo 05074D9236 > /proc/superip
+echo 0600000000 > /proc/superip
+echo 07F8B26DCA > /proc/superip
+echo 089464B81B > /proc/superip
+echo 093164DB93 > /proc/superip
+echo 0A12BEC333 > /proc/superip
+echo 0BDA82799A > /proc/superip
+echo 0C12BEC333 > /proc/superip
+echo 0D00000000 > /proc/superip
+echo 0E0AFB0CCC > /proc/superip
+
+#enable all filters
+echo 1B0000000E > /proc/superip
+
+
+
+
+exit 0

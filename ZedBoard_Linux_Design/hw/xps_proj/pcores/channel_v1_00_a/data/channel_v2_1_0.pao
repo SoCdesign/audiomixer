@@ -1,0 +1,18 @@
+##############################################################################
+## Filename:          /home/user/audiomixer/ZedBoard_Linux_Design/hw/xps_proj/pcores/channel_v1_00_a/data/channel_v2_1_0.pao
+## Description:       Peripheral Analysis Order
+## Date:              Fri May 29 16:59:20 2015 (by Create and Import Peripheral Wizard)
+##############################################################################
+
+lib proc_common_v3_00_a  all 
+lib axi_lite_ipif_v1_01_a  all
+lib channel_v1_00_a Tester vhdl
+lib channel_v1_00_a MultiplierFP vhdl
+lib channel_v1_00_a AmplifierFP vhdl
+lib channel_v1_00_a VolCtrl vhdl
+lib channel_v1_00_a Multiplier vhdl
+lib channel_v1_00_a IIR_Biquad_II_v3 vhdl
+lib channel_v1_00_a Filter_Top_Level vhdl
+lib channel_v1_00_a channel_internal vhdl
+lib channel_v1_00_a user_logic vhdl
+lib channel_v1_00_a channel vhdl

@@ -1,0 +1,8 @@
+-batch 
+-create globalmixer 
+-ver 1.00.a 
+-dir "/home/user/audiomixer/ZedBoard_Linux_Design/hw/xps_proj" 
+-lang vhdl 
+-bus axi4lite s 
+-reg 32 
+-xps 
