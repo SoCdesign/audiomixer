@@ -506,6 +506,8 @@ begin
 							 GM_Right_out <= GM_Right_in_2;
 			when "11" => GM_Left_out <= GM_Left_in_3;
 							 GM_Right_out <= GM_Right_in_3;
+			when others => GM_Left_out <= GM_Left_in_0;
+							 GM_Right_out <= GM_Right_in_0;
 		end case;
 	end process;
 

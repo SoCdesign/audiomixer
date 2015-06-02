@@ -314,19 +314,19 @@ begin
     port map
     (
       -- MAP USER PORTS BELOW THIS LINE ------------------
-		 CLK_48_in                   : in  std_logic;
-		 CLK_100M_in                 : in  std_logic; 
-		 GM_Left_in_0             : in  std_logic_vector(23 downto 0);
-		 GM_Right_in_0            : in  std_logic_vector(23 downto 0);
-		 GM_Left_in_1             : in  std_logic_vector(23 downto 0);
-		 GM_Right_in_1            : in  std_logic_vector(23 downto 0);
-		 GM_Left_in_2             : in  std_logic_vector(23 downto 0);
-		 GM_Right_in_2            : in  std_logic_vector(23 downto 0);
-		 GM_Left_in_3             : in  std_logic_vector(23 downto 0);
-		 GM_Right_in_3            : in  std_logic_vector(23 downto 0);
+		 CLK_48_in                  => CLK_48_in,
+		 CLK_100M_in                => CLK_100M_in,
+		 GM_Left_in_0              => GM_Left_in_0,
+		 GM_Right_in_0             => GM_Right_in_0,
+		 GM_Left_in_1              => GM_Left_in_1,
+		 GM_Right_in_1             => GM_Right_in_1,
+		 GM_Left_in_2             => GM_Left_in_2,
+		 GM_Right_in_2             => GM_Right_in_2,
+		 GM_Left_in_3              => GM_Left_in_3,
+		 GM_Right_in_3             => GM_Right_in_3,
 		 
-		 GM_Left_out  			  : out std_logic_vector(23 downto 0);
-		 GM_Right_out 			  : out std_logic_vector(23 downto 0);
+		 GM_Left_out  			   => GM_Left_out,
+		 GM_Right_out 			   => GM_Right_out,
       -- MAP USER PORTS ABOVE THIS LINE ------------------
 
       Bus2IP_Clk                     => ipif_Bus2IP_Clk,
