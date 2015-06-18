@@ -63,14 +63,14 @@ use ieee.std_logic_arith.all;
 use ieee.std_logic_unsigned.all;
 
 library proc_common_v3_00_a;
-use proc_common_v3_00_a.proc_common_pkg.all;
-use proc_common_v3_00_a.ipif_pkg.all;
+use work.proc_common_pkg.all; --? proc_common_v3_00_a
+use work.ipif_pkg.all; --? proc_common_v3_00_a
 
 library axi_lite_ipif_v1_01_a;
-use axi_lite_ipif_v1_01_a.axi_lite_ipif;
+use work.axi_lite_ipif; --? axi_lite_ipif_v1_01_a
 
 library globalmixer_v1_00_a;
-use globalmixer_v1_00_a.user_logic;
+use work.user_logic; --? globalmixer_v1_00_a
 
 ------------------------------------------------------------------------------
 -- Entity section
@@ -250,7 +250,7 @@ begin
   ------------------------------------------
   -- instantiate axi_lite_ipif
   ------------------------------------------
-  AXI_LITE_IPIF_I : entity axi_lite_ipif_v1_01_a.axi_lite_ipif
+  AXI_LITE_IPIF_I : entity work.axi_lite_ipif --? axi_lite_ipif_v1_01_a
     generic map
     (
       C_S_AXI_DATA_WIDTH             => IPIF_SLV_DWIDTH,
@@ -301,7 +301,7 @@ begin
   ------------------------------------------
   -- instantiate User Logic
   ------------------------------------------
-  USER_LOGIC_I : entity globalmixer_v1_00_a.user_logic
+  USER_LOGIC_I : entity work.user_logic --? globalmixer_v1_00_a
     generic map
     (
       -- MAP USER GENERICS BELOW THIS LINE ---------------
