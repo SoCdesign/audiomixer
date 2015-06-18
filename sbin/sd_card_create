@@ -4,10 +4,11 @@
 SD_CARD_FILES_DIR=$1
 DEV=$2
 
+BOOT_DIR=sd_card_boot
 LINARO_DIR=sd_card_linaro
 
 TMP_SUBDIR=sd_card_stuff
-LINARO_FS_IMAGE=http://releases.linaro.org/latest/ubuntu/utopic-images/gnome/linaro-utopic-gnome-20150421-702.tar.gz
+LINARO_FS_IMAGE=http://releases.linaro.org/15.04/ubuntu/utopic-images/gnome/linaro-utopic-gnome-20150421-702.tar.gz
 LABEL=created_by_sd_card_create
 
 DEV_INITIALIZED=0
@@ -73,7 +74,7 @@ if [ "$DEV_INITIALIZED" -eq "0" ]; then
 	echo -------------------------------
 	echo
 
-	echo -e "o\nn\np\n1\n\n+1G\nn\np\n2\n\n\nw" | fdisk $DEV
+	echo -e "o\nn\np\n1\n\n+100M\nn\np\n2\n\n\nw" | fdisk $DEV
 	partprobe -s
 
 	echo
@@ -160,7 +161,17 @@ echo copy files from $SD_CARD_FILES_DIR to $DEV"1"...
 echo --------------------------------------------------
 echo
 
-cp -v $SD_CARD_FILES_DIR/* /tmp/$TMP_SUBDIR/zed_boot/	
+cp -rv $SD_CARD_FILES_DIR/* /tmp/$TMP_SUBDIR/zed_boot/	
+
+
+echo
+echo --------------------------------------------------
+echo copy files from $BOOT_DIR to $DEV"1"...
+echo --------------------------------------------------
+echo
+
+cp -rv $BOOT_DIR/* /tmp/$TMP_SUBDIR/zed_boot/	
+
 
 echo
 echo --------------------------------------------------
