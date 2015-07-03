@@ -26,6 +26,7 @@ entity adau1761 is
            AC_GPIO3 : in    STD_LOGIC;  -- I2S_LR
            AC_MCLK  : out   STD_LOGIC;
            AC_SCK   : out   STD_LOGIC;
+			  new_sample : OUT std_logic;
 			  
 			  AUDIO_OUT_L : out STD_LOGIC_VECTOR(23 downto 0);
 			  AUDIO_OUT_R : out STD_LOGIC_VECTOR(23 downto 0);
@@ -62,9 +63,9 @@ architecture Behavioral of adau1761 is
 		AC_GPIO0 : OUT std_logic;
 		AC_MCLK : OUT std_logic;
 		AC_SCK : OUT std_logic;
+		new_sample : OUT std_logic;
 		line_in_l : OUT std_logic_vector(23 downto 0);
 		line_in_r : OUT std_logic_vector(23 downto 0);
-      new_sample: out   std_logic;
       sw : in std_logic_vector(1 downto 0);
       active : out std_logic_vector(1 downto 0)
 		);
@@ -80,7 +81,7 @@ architecture Behavioral of adau1761 is
    end component;
    
    signal clk_48     : std_logic;
-   signal new_sample : std_logic;
+   
 
    signal sw_synced : std_logic_vector(7 downto 0);
    signal active : std_logic_vector(1 downto 0);

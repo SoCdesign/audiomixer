@@ -178,12 +178,13 @@ architecture IMP of user_logic is
   signal slv_write_ack                  : std_logic;
 
 
-
+  signal slv_reg26_internal                  : std_logic_vector(C_SLV_DWIDTH-1 downto 0);
   signal slv_reg28_internal                  : std_logic_vector(C_SLV_DWIDTH-1 downto 0);
   signal slv_reg29_internal                  : std_logic_vector(C_SLV_DWIDTH-1 downto 0);
   signal slv_reg30_internal                  : std_logic_vector(C_SLV_DWIDTH-1 downto 0);
   signal slv_reg31_internal                  : std_logic_vector(C_SLV_DWIDTH-1 downto 0);
-
+  signal slv_reg28_internal_null					: std_logic_vector(C_SLV_DWIDTH-1 downto 0);
+  signal slv_reg29_internal_null					: std_logic_vector(C_SLV_DWIDTH-1 downto 0);
 
 begin
 
@@ -408,12 +409,12 @@ begin
                 slv_reg25(byte_index*8+7 downto byte_index*8) <= Bus2IP_Data(byte_index*8+7 downto byte_index*8);
               end if;
             end loop;
-          when "00000000000000000000000000100000" =>
-            for byte_index in 0 to (C_SLV_DWIDTH/8)-1 loop
-              if ( Bus2IP_BE(byte_index) = '1' ) then
-                slv_reg26(byte_index*8+7 downto byte_index*8) <= Bus2IP_Data(byte_index*8+7 downto byte_index*8);
-              end if;
-            end loop;
+--          when "00000000000000000000000000100000" =>
+--            for byte_index in 0 to (C_SLV_DWIDTH/8)-1 loop
+--              if ( Bus2IP_BE(byte_index) = '1' ) then
+--                slv_reg26(byte_index*8+7 downto byte_index*8) <= Bus2IP_Data(byte_index*8+7 downto byte_index*8);
+--              end if;
+--            end loop;
           when "00000000000000000000000000010000" =>
             for byte_index in 0 to (C_SLV_DWIDTH/8)-1 loop
               if ( Bus2IP_BE(byte_index) = '1' ) then
@@ -449,8 +450,10 @@ begin
           when others => null;
         end case;
 		  
+	slv_reg26 <= slv_reg26_internal;
 	slv_reg28 <= slv_reg28_internal;
 	slv_reg29 <= slv_reg29_internal;
+	
 	--slv_reg30 <= slv_reg30_internal;
 	--slv_reg31 <= slv_reg31_internal;
       end if;
@@ -500,12 +503,12 @@ begin
 
   end process SLAVE_REG_READ_PROC;
 
-
 	SIP : entity work.channel_internal port map (
 		Channel_Left_out  =>  Channel_Left_out ,
 		Channel_Right_out =>  Channel_Right_out ,
-		slv_reg28                   =>  slv_reg28_internal             ,
-		slv_reg29                   =>  slv_reg29_internal             ,
+		slv_reg26                   =>  slv_reg26_internal        ,
+		slv_reg28                   =>  slv_reg28_internal   ,
+		slv_reg29                   =>  slv_reg29_internal   ,
 		slv_reg30                   =>  slv_reg30             ,
 		slv_reg31                   =>  slv_reg31             ,
 		CLK_48_in                   =>  CLK_48_in                 ,
@@ -538,7 +541,7 @@ begin
 		slv_reg23                   =>  slv_reg23                 ,
 		slv_reg24                   =>  slv_reg24                 ,
 		slv_reg25                   =>  slv_reg25                 ,
-		slv_reg26                   =>  slv_reg26                 ,
+		
 		slv_reg27                   =>  slv_reg27
 		);
 

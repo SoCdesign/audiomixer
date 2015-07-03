@@ -120,10 +120,10 @@ BEGIN processing_system7
  PARAMETER C_EN_WDT = 0
  PARAMETER C_EN_DDR = 1
  PARAMETER C_EN_GPIO = 1
- PARAMETER C_FCLK_CLK0_FREQ = 100000000
- PARAMETER C_FCLK_CLK1_FREQ = 166666672
- PARAMETER C_FCLK_CLK2_FREQ = 200000000
- PARAMETER C_FCLK_CLK3_FREQ = 50000000
+ PARAMETER C_FCLK_CLK0_FREQ = 102000000
+ PARAMETER C_FCLK_CLK1_FREQ = 187000000
+ PARAMETER C_FCLK_CLK2_FREQ = 187000000
+ PARAMETER C_FCLK_CLK3_FREQ = 51000000
  PARAMETER C_USE_CR_FABRIC = 1
  PARAMETER C_USE_M_AXI_GP0 = 1
  PARAMETER C_USE_S_AXI_HP0 = 1
@@ -372,8 +372,8 @@ BEGIN channel
  PORT S_AXI_ACLK = processing_system7_0_FCLK_CLK0
  PORT CLK_48_in = adau1761_audio_0_clk_48_o
  PORT CLK_100M_in = processing_system7_0_FCLK_CLK0
-# PORT Channel_Left_in = adau1761_audio_0_AUDIO_OUT_L
-# PORT Channel_Right_in = adau1761_audio_0_AUDIO_OUT_R
+ PORT Channel_Left_in = adau1761_audio_0_AUDIO_OUT_L
+ PORT Channel_Right_in = adau1761_audio_0_AUDIO_OUT_R
  PORT Channel_Left_out = channel_1_Left_out
  PORT Channel_Right_out = channel_1_Right_out
 END
@@ -387,8 +387,8 @@ BEGIN channel
  PORT S_AXI_ACLK = processing_system7_0_FCLK_CLK0
  PORT CLK_48_in = adau1761_audio_0_clk_48_o
  PORT CLK_100M_in = processing_system7_0_FCLK_CLK0
-# PORT Channel_Left_in = adau1761_audio_0_AUDIO_OUT_L
-# PORT Channel_Right_in = adau1761_audio_0_AUDIO_OUT_R
+ PORT Channel_Left_in = adau1761_audio_0_AUDIO_OUT_L
+ PORT Channel_Right_in = adau1761_audio_0_AUDIO_OUT_R
  PORT Channel_Left_out = channel_2_Left_out
  PORT Channel_Right_out = channel_2_Right_out
 END
@@ -402,8 +402,8 @@ BEGIN channel
  PORT S_AXI_ACLK = processing_system7_0_FCLK_CLK0
  PORT CLK_48_in = adau1761_audio_0_clk_48_o
  PORT CLK_100M_in = processing_system7_0_FCLK_CLK0
-# PORT Channel_Left_in = adau1761_audio_0_AUDIO_OUT_L
-# PORT Channel_Right_in = adau1761_audio_0_AUDIO_OUT_R
+ PORT Channel_Left_in = adau1761_audio_0_AUDIO_OUT_L
+ PORT Channel_Right_in = adau1761_audio_0_AUDIO_OUT_R
  PORT Channel_Left_out = channel_3_Left_out
  PORT Channel_Right_out = channel_3_Right_out
 END

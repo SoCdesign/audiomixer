@@ -7,16 +7,21 @@ entity channel_internal is
 		-- Outputs
 		Channel_Left_out   : out std_logic_vector(23 downto 0);
 		Channel_Right_out  : out std_logic_vector(23 downto 0);
+		
+		slv_reg26                   : out  STD_LOGIC_VECTOR(31 downto 0);
+		
 		slv_reg28                   : out STD_LOGIC_VECTOR(31 downto 0);
 		slv_reg29                   : out STD_LOGIC_VECTOR(31 downto 0);
 		slv_reg30                   : in STD_LOGIC_VECTOR(31 downto 0);
 		slv_reg31                   : in STD_LOGIC_VECTOR(31 downto 0);
-
+		
+		
 		-- Inputs
 		CLK_48_in                   : in  std_logic;
 		CLK_100M_in                 : in  std_logic;
 		Channel_Left_in                : in  std_logic_vector(23 downto 0);
 		Channel_Right_in               : in  std_logic_vector(23 downto 0);
+		
 		-- REGISTERS
 		slv_reg0                    : in  STD_LOGIC_VECTOR(31 downto 0);
 		slv_reg1                    : in  STD_LOGIC_VECTOR(31 downto 0);
@@ -44,23 +49,24 @@ entity channel_internal is
 		slv_reg23                   : in  STD_LOGIC_VECTOR(31 downto 0);
 		slv_reg24                   : in  STD_LOGIC_VECTOR(31 downto 0);
 		slv_reg25                   : in  STD_LOGIC_VECTOR(31 downto 0);
-		slv_reg26                   : in  STD_LOGIC_VECTOR(31 downto 0);
+		
 		slv_reg27                   : in  STD_LOGIC_VECTOR(31 downto 0)
 	);
 end entity channel_internal;
 
 architecture RTL of channel_internal is
 	-- Outputs Register31
-	ALIAS OUT_RDY_L        : STD_LOGIC is slv_reg28(0);
-	ALIAS VolCtrl_RDY_R    : STD_LOGIC is slv_reg28(1);
-	ALIAS Filter_ready_out : STD_LOGIC is slv_reg28(2);
+	ALIAS OUT_RDY_L        : STD_LOGIC is slv_reg26(0);
+	ALIAS VolCtrl_RDY_R    : STD_LOGIC is slv_reg26(1);
+	ALIAS Filter_ready_out : STD_LOGIC is slv_reg26(2);
 
 	-- Inputs Register27
 	ALIAS Reset_in            : STD_LOGIC is slv_reg27(0);
-	ALIAS SAMPLE_TRIG         : STD_LOGIC is slv_reg27(1);
-	ALIAS HP_SW               : STD_LOGIC is slv_reg27(2);
-	ALIAS BP_SW               : STD_LOGIC is slv_reg27(3);
-	ALIAS LP_SW               : STD_LOGIC is slv_reg27(4);
+	ALIAS HP_SW               : STD_LOGIC is slv_reg27(1);
+	ALIAS BP_SW               : STD_LOGIC is slv_reg27(2);
+	ALIAS LP_SW               : STD_LOGIC is slv_reg27(3);
+	ALIAS Reset_Filter		  : STD_LOGIC is slv_reg27(4);
+	ALIAS SAMPLE_TRIG         : STD_LOGIC is slv_reg27(5);
 	ALIAS Mux1_Mux2_Select_in : std_logic_vector is slv_reg27(6 downto 5); 
 					--5th -> Mux1:= Volctrl or rawAudio; 	0 for Volctrl pass
 					--6th -> Mux2:= Filter or Mux1; 	0 for Filter pass
@@ -73,6 +79,10 @@ architecture RTL of channel_internal is
 
 	alias Reg_Left_in               :  std_logic_vector is slv_reg30(31 downto 8);
 	alias Reg_Right_in              :  std_logic_vector is slv_reg31(31 downto 8);
+
+	-- usually not needed, but helpful for debugging
+	--alias Reg_Left_out               :  std_logic_vector is slv_reg28;
+	--alias Reg_Right_out              :  std_logic_vector is slv_reg29;
 
 	-- Internals
 	signal Channel_Int_Left_in			: std_logic_vector(23 downto 0);
@@ -106,6 +116,12 @@ begin
 	--	Mux1_VolCtrlORAudio_Left_out  <= std_logic_vector(OUT_VOLCTRL_L);
 	--	Mux1_VolCtrlORAudio_Right_out <= std_logic_vector(OUT_VOLCTRL_R);
 
+	--Reg_Left_out <= Channel_Left_in & x"00";
+	--Reg_Right_out <= Channel_Right_in & x"00";
+	
+	slv_reg28 <= Channel_Left_in & x"00";
+	slv_reg29 <= Channel_Right_in & x"00";
+	
 	process(bus_frames_en)
 	begin
 		if bus_frames_en = '1' then
@@ -169,7 +185,7 @@ begin
 			slv_reg13         => slv_reg13,
 			slv_reg14         => slv_reg14,
 			CLK_48            => CLK_48_in,
-			RST               => Reset_in,
+			RST               => Reset_Filter,
 			SAMPLE_TRIG       => SAMPLE_TRIG,
 			sample_trigger_en => sample_trigger_en,
 			HP_SW             => HP_SW,

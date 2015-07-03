@@ -123,7 +123,7 @@ entity user_logic is
 	 AC_GPIO0 : OUT std_logic;
 	 AC_MCLK : OUT std_logic;
 	 AC_SCK : OUT std_logic;
-	 
+	 new_sample : OUT std_logic;
     -- ADD USER PORTS ABOVE THIS LINE ------------------
 
     -- DO NOT EDIT BELOW THIS LINE ---------------------
@@ -181,6 +181,7 @@ architecture IMP of user_logic is
 		AC_GPIO0 : OUT std_logic;
 		AC_MCLK : OUT std_logic;
 		AC_SCK : OUT std_logic;
+		new_sample : OUT std_logic;
 		sw       : in    STD_LOGIC_VECTOR(7 downto 0)  
 		);
 	END COMPONENT;    
@@ -223,6 +224,7 @@ begin
 	 AC_GPIO3 => AC_GPIO3,
 	 AC_MCLK => AC_MCLK,
 	 AC_SCK => AC_SCK,
+	 new_sample => new_sample,
 	 AC_SDA_I => AC_SDA_I,      
 	 AC_SDA_O => AC_SDA_O,      
 	 AC_SDA_T => AC_SDA_T,
