@@ -21,7 +21,7 @@ void handler(union sigval sv)
    start = clock();
 
    c++;
-   fp = fopen("SINK", "w");
+   fp = fopen("/proc/channel_in0", "w");
   
    fread((void *)buffer, sizeof(char), MESSLEN, stdin);
    buffer[MESSLEN] = '\0';

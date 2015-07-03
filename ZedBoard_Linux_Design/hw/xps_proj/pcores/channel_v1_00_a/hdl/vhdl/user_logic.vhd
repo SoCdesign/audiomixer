@@ -181,8 +181,8 @@ architecture IMP of user_logic is
   signal slv_reg26_internal                  : std_logic_vector(C_SLV_DWIDTH-1 downto 0);
   signal slv_reg28_internal                  : std_logic_vector(C_SLV_DWIDTH-1 downto 0);
   signal slv_reg29_internal                  : std_logic_vector(C_SLV_DWIDTH-1 downto 0);
-  signal slv_reg30_internal                  : std_logic_vector(C_SLV_DWIDTH-1 downto 0);
-  signal slv_reg31_internal                  : std_logic_vector(C_SLV_DWIDTH-1 downto 0);
+  --signal slv_reg30_internal                  : std_logic_vector(C_SLV_DWIDTH-1 downto 0);
+  --signal slv_reg31_internal                  : std_logic_vector(C_SLV_DWIDTH-1 downto 0);
   signal slv_reg28_internal_null					: std_logic_vector(C_SLV_DWIDTH-1 downto 0);
   signal slv_reg29_internal_null					: std_logic_vector(C_SLV_DWIDTH-1 downto 0);
 
