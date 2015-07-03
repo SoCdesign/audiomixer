@@ -9,6 +9,7 @@ lib axi_lite_ipif_v1_01_a  all
 lib channel_v1_00_a Tester vhdl
 lib channel_v1_00_a MultiplierFP vhdl
 lib channel_v1_00_a AmplifierFP vhdl
+lib channel_v1_00_a Balance vhdl
 lib channel_v1_00_a VolCtrl vhdl
 lib channel_v1_00_a Multiplier vhdl
 lib channel_v1_00_a IIR_Biquad_II_v3 vhdl

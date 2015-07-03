@@ -55,76 +55,70 @@ entity channel_internal is
 end entity channel_internal;
 
 architecture RTL of channel_internal is
-	-- Outputs Register31
-	ALIAS OUT_RDY_L        : STD_LOGIC is slv_reg26(0);
-	ALIAS VolCtrl_RDY_R    : STD_LOGIC is slv_reg26(1);
-	ALIAS Filter_ready_out : STD_LOGIC is slv_reg26(2);
-
-	-- Inputs Register27
-	ALIAS Reset_in            : STD_LOGIC is slv_reg27(0);
-	ALIAS HP_SW               : STD_LOGIC is slv_reg27(1);
-	ALIAS BP_SW               : STD_LOGIC is slv_reg27(2);
-	ALIAS LP_SW               : STD_LOGIC is slv_reg27(3);
-	ALIAS Reset_Filter		  : STD_LOGIC is slv_reg27(4);
-	ALIAS SAMPLE_TRIG         : STD_LOGIC is slv_reg27(5);
-	ALIAS Mux1_Mux2_Select_in : std_logic_vector is slv_reg27(6 downto 5); 
-					--5th -> Mux1:= Volctrl or rawAudio; 	0 for Volctrl pass
-					--6th -> Mux2:= Filter or Mux1; 	0 for Filter pass
-
-	ALIAS sample_trigger_en   : STD_LOGIC is slv_reg27(7); 
-					--if this signal is '1' filter waits for sample triggers
-					--otherwise, its constantly calculating
-	alias bus_frames_en			: std_logic is slv_reg27(31);
-
-
-	alias Reg_Left_in               :  std_logic_vector is slv_reg30(31 downto 8);
-	alias Reg_Right_in              :  std_logic_vector is slv_reg31(31 downto 8);
-
-	-- usually not needed, but helpful for debugging
-	--alias Reg_Left_out               :  std_logic_vector is slv_reg28;
-	--alias Reg_Right_out              :  std_logic_vector is slv_reg29;
-
 	-- Internals
 	signal Channel_Int_Left_in			: std_logic_vector(23 downto 0);
 	signal Channel_Int_Right_in		: std_logic_vector(23 downto 0);
 	
+	signal Mux2_FilterORMux1_Left        : std_logic_vector(23 downto 0);
+	signal Mux2_FilterORMux1_Right       : std_logic_vector(23 downto 0);
 	signal Mux1_VolCtrlORAudio_Left_out  : std_logic_vector(23 downto 0);
 	signal Mux1_VolCtrlORAudio_Right_out : std_logic_vector(23 downto 0);
 	signal Filter_Left_out               : std_logic_vector(23 downto 0);
 	signal Filter_Right_out              : std_logic_vector(23 downto 0);
 	signal OUT_VOLCTRL_L                 : signed(23 downto 0);
 	signal OUT_VOLCTRL_R                 : signed(23 downto 0);
---	signal Volctrl_Left_out              : std_logic_vector(23 downto 0);
---	signal Volctrl_Right_out             : std_logic_vector(23 downto 0);
---	signal slv_reg15_s                   : signed(31 downto 0);
---	signal slv_reg16_s                   : signed(31 downto 0);
---	signal Audio_Left_in_s               : signed(23 downto 0);
---	signal Audio_Right_in_s              : signed(23 downto 0);
+	signal Balance_L_OUT                 : signed(23 downto 0);
+	signal Balance_R_OUT                 : signed(23 downto 0);
+
+	-- Outputs Register 26
+	ALIAS VolCtrl_RDY_L    : STD_LOGIC is slv_reg26(0);
+	ALIAS VolCtrl_RDY_R    : STD_LOGIC is slv_reg26(1);
+	ALIAS Filter_ready_out : STD_LOGIC is slv_reg26(2);
+	ALIAS READY_BAL        : STD_LOGIC is slv_reg26(3);
+
+	-- Inputs Register27
+	
+	ALIAS HP_SW               : STD_LOGIC is slv_reg27(0);
+	ALIAS BP_SW               : STD_LOGIC is slv_reg27(4);
+	ALIAS LP_SW               : STD_LOGIC is slv_reg27(8);
+	ALIAS Reset_in            : STD_LOGIC is slv_reg27(16);
+					--if this signal is '1' filter waits for sample triggers
+					--otherwise, its constantly calculating
+	ALIAS sample_trigger_en   : STD_LOGIC is slv_reg27(20); 
+	ALIAS bus_frames_en		  : std_logic is slv_reg27(31);
+	
+	
+	
+	-- Inputs Register 25
+	signal Mux_Select_in : std_logic_vector(2 downto 0); 
+	--slv_reg25(0) -> Mux1:= Volctrl or rawAudio; 	0 for Volctrl pass
+	--slv_reg25(4) -> Mux2:= Filter or Mux1; 		0 for Filter pass
+	--slv_reg25(8) -> mux3:= Balance or Mux2    	0 for Balance pass
+	
+	-- Inputs Register 24
+	ALIAS Reset_Filter		  : STD_LOGIC is slv_reg24(0);
+			
+	-- Inputs Register 23
+	ALIAS SAMPLE_TRIG         : STD_LOGIC is slv_reg23(0);
+	
+	-- Frame Input Register 30 and 31
+	alias Reg_Left_in               :  std_logic_vector is slv_reg30(23 downto 0);
+	alias Reg_Right_in              :  std_logic_vector is slv_reg31(23 downto 0);
+
+	-- usually not needed, but helpful for debugging
+	--alias Reg_Left_out               :  std_logic_vector is slv_reg28;
+	--alias Reg_Right_out              :  std_logic_vector is slv_reg29;
+
+
 
 begin
-	--------------------------START VolCtrl--------------
-	--input
-	--	slv_reg15_s       <= signed(slv_reg15);
-	--	slv_reg16_s       <= signed(slv_reg16);
-	--	Audio_Left_in_s   <= signed(Audio_Left_in);
-	--	Audio_Right_in_s  <= signed(Audio_Right_in);
-	--------------------------END VolCtrl----------------
-
-	--	Mux2_FilterORMux1_Left_out  <= Filter_Left_out;
-	--	Mux2_FilterORMux1_Right_out <= Filter_Right_out;
-
-	--	Mux1_VolCtrlORAudio_Left_out  <= std_logic_vector(OUT_VOLCTRL_L);
-	--	Mux1_VolCtrlORAudio_Right_out <= std_logic_vector(OUT_VOLCTRL_R);
-
-	--Reg_Left_out <= Channel_Left_in & x"00";
-	--Reg_Right_out <= Channel_Right_in & x"00";
+	Mux_Select_in <= slv_reg25(8) & slv_reg25(4) & slv_reg25(0);
+	slv_reg28 <= x"00" & Channel_Left_in;
+	slv_reg29 <= x"00" & Channel_Right_in;
 	
-	slv_reg28 <= Channel_Left_in & x"00";
-	slv_reg29 <= Channel_Right_in & x"00";
-	
-	process(bus_frames_en)
+	Mux_Frames_or_internal : process(bus_frames_en, Channel_Int_Left_in, Channel_Int_Right_in, Channel_Left_in, Channel_Right_in, Reg_Left_in, Reg_Right_in)
 	begin
-		if bus_frames_en = '1' then
+		if bus_frames_en = '0' then
 			Channel_Int_Left_in <= Channel_Left_in;
 			Channel_Int_Right_in <= Channel_Right_in;
 		else
@@ -143,9 +137,13 @@ begin
 			Mux1_VolCtrlORAudio_Right_out => Mux1_VolCtrlORAudio_Right_out,
 			Filter_Left_out_in            => Filter_Left_out,
 			Filter_Right_out_in           => Filter_Right_out,
-			Mux2_FilterORMux1_Left_out    => Channel_Left_out,
-			Mux2_FilterORMux1_Right_out   => Channel_Right_out,
-			Mux1_Mux2_Select_in           => Mux1_Mux2_Select_in
+			Mux2_FilterORMux1_Left_out    => Mux2_FilterORMux1_Left,
+			Mux2_FilterORMux1_Right_out   => Mux2_FilterORMux1_Right,
+			Balance_Left_out_in           => std_logic_vector(Balance_L_OUT),
+			Balance_Right_out_in          => std_logic_vector(Balance_R_OUT),
+			Mux3_BalanceORMux2_Left_out   => Channel_Left_out,
+			Mux3_BalanceORMux2_Right_out  => Channel_Right_out,
+			Mux_Select_in                 => Mux_Select_in
 		);
 
 	VolCtrl_inst : entity work.VolCtrl
@@ -156,7 +154,7 @@ begin
 		port map(
 			OUT_VOLCTRL_L => OUT_VOLCTRL_L,
 			OUT_VOLCTRL_R => OUT_VOLCTRL_R,
-			OUT_RDY_L     => OUT_RDY_L,
+			OUT_RDY_L     => VolCtrl_RDY_L,
 			OUT_RDY_R     => VolCtrl_RDY_R,
 			IN_SIG_L      => signed(Channel_Left_in),
 			IN_SIG_R      => signed(Channel_Right_in),
@@ -197,5 +195,24 @@ begin
 			AUDIO_OUT_R       => Filter_Right_out,
 			FILTER_DONE       => Filter_ready_out
 		);
+
+		Balance_inst : entity work.Balance
+		generic map(
+			INTBIT_WIDTH      => 24,
+			FRACBIT_WIDTH     => 8,
+			N                 => 32,
+			Attenuation_Const => 11
+		)
+		port map(
+			CLK_BAL   => CLK_48_in,
+			RESET_BAL => Reset_in,
+			POINTER   => to_integer(signed(slv_reg17)),
+			CH_L_IN   => signed(Mux2_FilterORMux1_Left),
+			CH_R_IN   => signed(Mux2_FilterORMux1_Right),
+			CH_L_OUT  => Balance_L_OUT,
+			CH_R_OUT  => Balance_R_OUT,
+			READY_BAL => READY_BAL
+		);
+
 
 end architecture RTL;
