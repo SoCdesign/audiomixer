@@ -33,3 +33,9 @@ R 0xe0d4001d V 0x00000000
 R 0xe0d4001e V 0x00000000
 R 0xe0d4001f V 0x00000000
 root@linaro-gnome:~#
+
+
+audiomixer driver
+
+linux-digilent/include/linux/ioport.h (struct resource)
+

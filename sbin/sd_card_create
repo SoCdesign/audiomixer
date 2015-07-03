@@ -148,7 +148,7 @@ if [ "$WIPE_FIRST" -eq "1" ]; then
 	echo --------------------------------------------------
 	echo
 
-	rm -r /tmp/$TMP_SUBDIR/zed_boot/*
+	rm -rfv /tmp/$TMP_SUBDIR/zed_boot/*
 
 fi
 

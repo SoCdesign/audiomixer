@@ -14,30 +14,101 @@
 # Generate the SSH keys if non-existent
 test -f /etc/ssh/ssh_host_dsa_key || dpkg-reconfigure openssh-server
 
+/etc/init.d/network-manager stop
+
+ifconfig eth0 down
+ifconfig eth0 hw ether 00:0a:35:00:00:00 
+ifconfig eth0 192.168.100.1
+ifconfig eth0 up
+
 mount /dev/mmcblk0p1 /mnt
-insmod /mnt/superip.ko
+insmod /mnt/audiomixer.ko
 
-sleep 1
+#channel0 default coefficients
+echo 0000002CB6 > /proc/channel0
+echo 010000596C > /proc/channel0
+echo 0200002CB6 > /proc/channel0
+echo 038097A63A > /proc/channel0
+echo 043F690C9D > /proc/channel0
+echo 05074D9236 > /proc/channel0
+echo 0600000000 > /proc/channel0
+echo 07F8B26DCA > /proc/channel0
+echo 089464B81B > /proc/channel0
+echo 093164DB93 > /proc/channel0
+echo 0A12BEC333 > /proc/channel0
+echo 0BDA82799A > /proc/channel0
+echo 0C12BEC333 > /proc/channel0
+echo 0D00000000 > /proc/channel0
+echo 0E0AFB0CCC > /proc/channel0
 
-echo 0000002CB6 > /proc/superip
-echo 010000596C > /proc/superip
-echo 0200002CB6 > /proc/superip
-echo 038097A63A > /proc/superip
-echo 043F690C9D > /proc/superip
-echo 05074D9236 > /proc/superip
-echo 0600000000 > /proc/superip
-echo 07F8B26DCA > /proc/superip
-echo 089464B81B > /proc/superip
-echo 093164DB93 > /proc/superip
-echo 0A12BEC333 > /proc/superip
-echo 0BDA82799A > /proc/superip
-echo 0C12BEC333 > /proc/superip
-echo 0D00000000 > /proc/superip
-echo 0E0AFB0CCC > /proc/superip
+#channel1 default coefficients
+echo 0000002CB6 > /proc/channel1
+echo 010000596C > /proc/channel1
+echo 0200002CB6 > /proc/channel1
+echo 038097A63A > /proc/channel1
+echo 043F690C9D > /proc/channel1
+echo 05074D9236 > /proc/channel1
+echo 0600000000 > /proc/channel1
+echo 07F8B26DCA > /proc/channel1
+echo 089464B81B > /proc/channel1
+echo 093164DB93 > /proc/channel1
+echo 0A12BEC333 > /proc/channel1
+echo 0BDA82799A > /proc/channel1
+echo 0C12BEC333 > /proc/channel1
+echo 0D00000000 > /proc/channel1
+echo 0E0AFB0CCC > /proc/channel1
 
-#enable all filters
-echo 1B0000000E > /proc/superip
 
+#channel2 default coefficients
+echo 0000002CB6 > /proc/channel2
+echo 010000596C > /proc/channel2
+echo 0200002CB6 > /proc/channel2
+echo 038097A63A > /proc/channel2
+echo 043F690C9D > /proc/channel2
+echo 05074D9236 > /proc/channel2
+echo 0600000000 > /proc/channel2
+echo 07F8B26DCA > /proc/channel2
+echo 089464B81B > /proc/channel2
+echo 093164DB93 > /proc/channel2
+echo 0A12BEC333 > /proc/channel2
+echo 0BDA82799A > /proc/channel2
+echo 0C12BEC333 > /proc/channel2
+echo 0D00000000 > /proc/channel2
+echo 0E0AFB0CCC > /proc/channel2
+
+
+#channel3 default coefficients
+echo 0000002CB6 > /proc/channel3
+echo 010000596C > /proc/channel3
+echo 0200002CB6 > /proc/channel3
+echo 038097A63A > /proc/channel3
+echo 043F690C9D > /proc/channel3
+echo 05074D9236 > /proc/channel3
+echo 0600000000 > /proc/channel3
+echo 07F8B26DCA > /proc/channel3
+echo 089464B81B > /proc/channel3
+echo 093164DB93 > /proc/channel3
+echo 0A12BEC333 > /proc/channel3
+echo 0BDA82799A > /proc/channel3
+echo 0C12BEC333 > /proc/channel3
+echo 0D00000000 > /proc/channel3
+echo 0E0AFB0CCC > /proc/channel3
+
+
+
+echo 1b0000008e > /proc/channel0
+echo 1b0000008e > /proc/channel1
+echo 1b0000008e > /proc/channel2
+echo 1b0000008e > /proc/channel3
+
+echo 0000000000 > /proc/globalmixer
+
+
+echo 0f00000100 > /proc/channel0
+echo 1000000100 > /proc/channel0
+
+
+#echo 20ffffffff > /proc/channel0
 
 
 

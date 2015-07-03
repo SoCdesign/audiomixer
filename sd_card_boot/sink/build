@@ -1,0 +1,5 @@
+
+gcc -o sink sink.c -lrt
+gcc -o sinkd sinkd.c -lrt
+gcc -o sinkdd sinkdd.c -lrt
+

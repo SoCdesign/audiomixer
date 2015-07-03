@@ -551,23 +551,23 @@
 			spi-sdin-gpio = <&ps7_gpio_0 60 0>;
 		};
 
-		channel_0 {
-			compatible = "dglnt,channel0-1.00.a";
+		channel0 {
+			compatible = "dglnt,channel-1.00.a";
 			reg = <0x7c800000 0x10000>;
 		};
 
-		channel_1 {
-			compatible = "dglnt,channel1-1.00.a";
+		channel1 {
+			compatible = "dglnt,channel-1.00.a";
 			reg = <0x7c820000 0x10000>;
 		};
 
-		channel_2 {
-			compatible = "dglnt,channel2-1.00.a";
+		channel2 {
+			compatible = "dglnt,channel-1.00.a";
 			reg = <0x7c840000 0x10000>;
 		};
 
-		channel_3 {
-			compatible = "dglnt,channel3-1.00.a";
+		channel3 {
+			compatible = "dglnt,channel-1.00.a";
 			reg = <0x7c860000 0x10000>;
 		};
 

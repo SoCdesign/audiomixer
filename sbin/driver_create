@@ -35,5 +35,5 @@ $MAKE clean
 $MAKE
 cd ..
 echo
-cp -v $DRIVER_DIR/superip.ko $SD_CARD_DIR/superip.ko
+cp -v $DRIVER_DIR/audiomixer.ko $SD_CARD_DIR/audiomixer.ko
 echo

@@ -149,15 +149,15 @@ fi
 
 echo
 echo -------------------------------
-echo create superip.ko 
+echo create audiomixer.ko 
 echo -------------------------------
 echo
-if [ -f $SD_CARD_DIR/superip.ko ]; then
-	echo skipping superip.ko compilation. File already exists
+if [ -f $SD_CARD_DIR/audiomixer.ko ]; then
+	echo skipping audiomixer.ko compilation. File already exists
 	echo
 else
 	if ! $SCRIPTS/driver_create >> $LOG 2>&1; then
-		echo creating superip.ko failed!
+		echo creating audiomixer.ko failed!
 		echo tail $LOG
 		echo 
 		echo $(tail $LOG)
