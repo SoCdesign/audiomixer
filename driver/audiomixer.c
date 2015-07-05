@@ -22,9 +22,14 @@
 #define INPUTREG 28 
 #define FRAMEREG 30
 
+//#define NSINTERVAL 20834
+#define NSINTERVAL 41667
 
-#define FRAMEBUFLEN 48000 * 2
-#define FRAMEBUFSIZE 48000 * sizeof(u32) * 2
+//#define FRAMESPERSEC 48000
+#define FRAMESPERSEC 24000
+#define FRAMEBUFLEN FRAMESPERSEC * 2
+#define FRAMEBUFSIZE FRAMESPERSEC * sizeof(u32) * 2
+
 //#define FRAMEBUFLEN 8000 
 //#define FRAMEBUFSIZE 8000 * sizeof(u32) 
 
@@ -143,9 +148,9 @@ enum hrtimer_restart handler(struct hrtimer *timer)
 	{
 	       	buf_sw = buf_free;
 	
-	        spin_lock(&buf_free_lock);
+	        //spin_lock(&buf_free_lock);
 	        buf_free = (buf_free + 1) & 0x1;
-	        spin_unlock(&buf_free_lock);
+	        //spin_unlock(&buf_free_lock);
 					
 		buf_count = 0;
 	}
@@ -207,8 +212,8 @@ enum hrtimer_restart handler(struct hrtimer *timer)
 	getnstimeofday(&handler_stop);
 	handler_delta = timespec_sub(handler_stop, handler_start);
 
-	if((buf_count % 8000) == 0)	
-		printk(KERN_INFO DRIVER_NAME " HANDLER device %d wrote frame %08x%08x in %lu seconds %lu nanoseconds\n", 0, a_devs[0].framebuf[buf_sw][buf_count], a_devs[0].framebuf[buf_sw][buf_count + 1], handler_delta.tv_sec, handler_delta.tv_nsec);
+	//if((buf_count % 8000) == 0)	
+	//	printk(KERN_INFO DRIVER_NAME " HANDLER device %d wrote frame %08x%08x in %lu seconds %lu nanoseconds\n", 0, a_devs[0].framebuf[buf_sw][buf_count], a_devs[0].framebuf[buf_sw][buf_count + 1], handler_delta.tv_sec, handler_delta.tv_nsec);
 
 
 	buf_count += 2;
@@ -228,7 +233,7 @@ void trigger_timer(void)
         	buf_count = 0;
         	spin_lock_init(&buf_free_lock);
 
-		kt = ktime_set(0, 20834);
+		kt = ktime_set(0, NSINTERVAL);
         	hrtimer_init(&hrt, CLOCK_REALTIME, HRTIMER_MODE_REL_PINNED);
         	hrt.function = handler;
         	hrtimer_start(&hrt, kt, HRTIMER_MODE_REL_PINNED);
@@ -462,7 +467,7 @@ static ssize_t proc_channel_in_write(struct file *file, const char __user * buf,
 	str[0] = '0';
 	str[1] = 'x';
 	
-        spin_lock(&buf_free_lock);
+        //spin_lock(&buf_free_lock);
 
 	//drop part of frame fragment in front of next whole frame 
 	for(j = 0; channel_in_str[j] != '#' && j < 17; j++);
@@ -491,17 +496,17 @@ static ssize_t proc_channel_in_write(struct file *file, const char __user * buf,
 		{
 			memcpy(inputbuffer, channel_in_str + j + 1, 16);
 			inputbuffer[16] = '\0';
-			printk(KERN_INFO DRIVER_NAME " CHANNEL_IN k[%d] %d before conversion input %s\n", i, k[i], inputbuffer);
+			//printk(KERN_INFO DRIVER_NAME " CHANNEL_IN k[%d] %d before conversion input %s\n", i, k[i], inputbuffer);
 
 			k[i] = a_dev->frames_read;
-			printk(KERN_INFO DRIVER_NAME " CHANNEL_IN intermediate k[%d] %d\n", i, k[i]);
+			//printk(KERN_INFO DRIVER_NAME " CHANNEL_IN intermediate k[%d] %d\n", i, k[i]);
 			k[i] %= FRAMEBUFLEN;
-			printk(KERN_INFO DRIVER_NAME " CHANNEL_IN new k[%d] %d\n", i, k[i]);
+			//printk(KERN_INFO DRIVER_NAME " CHANNEL_IN new k[%d] %d\n", i, k[i]);
 
 			memcpy(str + 2, channel_in_str + j + 1, 8);
 			str[10] = '\0';
 			
-			printk(KERN_INFO DRIVER_NAME " CHANNEL_IN k[%d] %d before conversion value left %s\n", i, k[i], str);
+			//printk(KERN_INFO DRIVER_NAME " CHANNEL_IN k[%d] %d before conversion value left %s\n", i, k[i], str);
 
 			a_dev->framebuf[buf_free][k[i]] = simple_strtoul(str, NULL, 0);
 
@@ -509,7 +514,7 @@ static ssize_t proc_channel_in_write(struct file *file, const char __user * buf,
 			memcpy(str + 2, channel_in_str + j + 9, 8);
 			str[10] = '\0';
 
-			printk(KERN_INFO DRIVER_NAME " CHANNEL_IN k[%d] %d before conversion value right %s\n", i, k[i], str);
+			//printk(KERN_INFO DRIVER_NAME " CHANNEL_IN k[%d] %d before conversion value right %s\n", i, k[i], str);
 
 			a_devs->framebuf[buf_free][k[i] + 1] = simple_strtoul(str, NULL, 0);
 			//wmb();
@@ -527,7 +532,7 @@ static ssize_t proc_channel_in_write(struct file *file, const char __user * buf,
 
 FINISH:
 
-	spin_unlock(&buf_free_lock);
+	//spin_unlock(&buf_free_lock);
 
 	printk(KERN_INFO DRIVER_NAME " CHANNEL_IN count %d k[%d] %d a_devs[0].frames_read %d\n", count, i, k[i], a_dev->frames_read);
 

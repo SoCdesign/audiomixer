@@ -96,16 +96,26 @@ echo 0E0AFB0CCC > /proc/channel3
 
 
 
-echo 1b0000008e > /proc/channel0
-echo 1b0000008e > /proc/channel1
-echo 1b0000008e > /proc/channel2
-echo 1b0000008e > /proc/channel3
+echo 1B80000111 > /proc/channel0
+echo 1B80000111 > /proc/channel1
+echo 1B80000111 > /proc/channel2
+echo 1B80000111 > /proc/channel3
+
+#set Pregain to be on normal sound
+echo 0F00000150 > /proc/channel0
+echo 1000000150 > /proc/channel0
+
+#set balance unit to balance audio: Left_50 - Right_50
+echo 1100000011 > /proc/channel0
+
+#disable components: Balance-Filter-Pregain" and just bypass raw input to output
+echo 1900000111 > /proc/channel0
+
+#enable:  bus_frames_en(31) - Balance(26) - Filter(25) - Pregain(24) - sample_trigger_en(20) - reset_in(16) - reset_filter(12) - LP(8) - BP(4) - HP(0)
+echo 1B80000111 > /proc/channel0
+
 
 echo 0000000000 > /proc/globalmixer
-
-
-echo 0f00000100 > /proc/channel0
-echo 1000000100 > /proc/channel0
 
 
 #echo 20ffffffff > /proc/channel0
